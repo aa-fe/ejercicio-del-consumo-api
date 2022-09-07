@@ -43,11 +43,16 @@ body {
     object-fit: cover;
 }
 
+.model {
+    display: none;
+}
+
 #characters {
     display: flex;
     flex-wrap: wrap;
 }
 
-.model{
-    display: none;
+footer#pagination{
+    padding: 1rem;
+    text-align: center;
 }

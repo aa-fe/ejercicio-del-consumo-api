@@ -1,5 +1,7 @@
 const apiUrl = "https://breakingbadapi.com/api/"
-
+let currentoffset = 0
+let pageNum = 0
+let elementsPerPage = 6
 /*const fakeCharacters = [
     {
         //ctrl D para seleccionar misma cosa multiple times, ctrl P para buscar extension con >, ctrl alt i para numerar 
@@ -29,10 +31,20 @@ const apiUrl = "https://breakingbadapi.com/api/"
     }
 ]*/
 
-function doQuery(url, displayFunction){
+
+
+function doQuery({
+    endpoint, 
+    displayFunction, 
+    pageNum, 
+    elementsPerPage
+}) {
+
+    const offset = pageNum * elementsPerPage
+    const queryString = `?limit=${elementsPerPage}&offset=${offset}`
 
 //mandamos una solicitud y obtenemos una promesa
-const request = fetch(apiUrl + url)
+const request = fetch(apiUrl + endpoint + queryString)
 
 //esperar a que resuelva la promesa
 request.then(function(response){
@@ -131,9 +143,50 @@ characterBox.classList.add("character")
 return characterBox
 }
 
-doQuery("characters", displayCharacters)
+
+
+function loadMore(){
+    
+    
+    doQuery({
+        endpoint: "characters",
+        pageNum,
+        elementsPerPage,
+        displayFunction: displayCharacters
+
+        //endpoint: "characters?limit="+elementsPerPage+"&offset="+offset, 
+        
+    })
+
+    pageNum++
+        
+}
+
+function setupPagination(){
+    const btn = document.querySelector("#load-more")
+    btn.addEventListener("click", loadMore)
+}
+
+function windowScroll(){
+
+console.log("scroll y", window.scrollY, window.innerHeight)
+const container = document.querySelector("#characters")
+console.log("comtainer height", container.clientHeight)
+
+}
+
+function setupInfiniteScroll(){
+    window.addEventListener("scroll",windowScroll)
+}
+
+setupPagination()
+setupInfiniteScroll()
+
+loadMore()
+
+//doQuery("characters?limit="+elementsPerPage+numberPlus, displayCharacters)
+
 /* doQuery("characters")
 doQuery("episodes")*/
 
 console.log("Consulta API")
-
