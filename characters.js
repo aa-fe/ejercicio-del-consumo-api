@@ -159,7 +159,7 @@ function loadMore(){
     })
 
     pageNum++
-        
+
 }
 
 function setupPagination(){
@@ -169,9 +169,26 @@ function setupPagination(){
 
 function windowScroll(){
 
-console.log("scroll y", window.scrollY, window.innerHeight)
-const container = document.querySelector("#characters")
-console.log("comtainer height", container.clientHeight)
+console.log(
+    "scroll y", 
+window.scrollY, 
+window.innerHeight
+)
+const container = document.
+querySelector("#characters")
+
+console.log(
+    "container height", 
+    container.clientHeight
+    )
+
+const windowSum = window.innerHeight + window.scrollY
+const reachedEnd = (windowSum > container.clientHeight)
+
+    if(reachedEnd){
+        loadMore()
+    }
+
 
 }
 
